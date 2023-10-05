@@ -1,0 +1,27 @@
+<%- include('../partials/header') %> 
+<%- include('../partials/navbar') %> 
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            Cadastro de Produto
+        </div>
+        <div class="card-body">
+            <form action="/salvarUsuario" method="post">
+                <label>Matricula</label>
+                <input type="string" name="matricula" id="tituloProd"
+                class="form-control">
+                <input type="string" name="nome" id="tituloProd"
+                class="form-control">
+                <input type="string" name="email" id="tituloProd"
+                class="form-control">
+                <label>Senha</label>
+                <input type="string" name="senha">
+                <button class="btn btn-primary">Salvar</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<%- include('../partials/footer') %> 

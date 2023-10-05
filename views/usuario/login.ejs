@@ -1,0 +1,33 @@
+<div class="content3"><%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+    <link rel="stylesheet" href="/css/login.css">
+    
+    <body>
+        
+        <img class="imagem-fora-container" src="/images/logo.png">
+        
+    <div class="login-container">
+        <div class="icons">
+            <i class="medium material-icons">account_circle</i>
+        </div>
+        <center><h2>Login</h2></center>
+        <form class="login-form" action="/login" method="POST">
+            <label for="matricula">Matrícula:</label>
+            <input type="text" id="matricula" name="matricula" required><br><br>
+    
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required><br><br>
+            <button style="color: #006951;" class="waves-effect waves-light btn-small " type="submit">Login</button>
+        
+            </form>
+        </div>
+    </div>
+        
+        
+        <div id = "fundo">
+            <a href="outra_pagina.html" style="color: #006951;">Funcionário</a> |
+            <a href="outra_pagina.html" style="color: #006951;">Empresa</a>
+            </div>
+            
+            <%- include('../partials/footer') %> 
+        </body>

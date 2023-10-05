@@ -1,0 +1,18 @@
+
+<%- include('../partials/header') %>
+    <%- include('../partials/navbar2') %>
+    <link rel="stylesheet" href="/css/denuncias.css">
+        <div class="content">
+            <img class="image" src="sua-imagem.png" alt="Sua Imagem">
+            <div class="title">Denúncia</div>
+            <hr class="line">
+            <form action="/denuncias" method="post" >
+            <div class="form">
+                <input type="text" name="texto" placeholder="Digite sua denúncia" required>
+                <input type="file" id="imagem" name="imagem" accept="image/*" required>
+            <input type="file" id="video" name="video" accept="image/*" required>
+            <button type="submit">Enviar Denúncia</button>
+            </div>
+        </div>
+    </form>
+       

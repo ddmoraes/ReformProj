@@ -1,0 +1,39 @@
+<%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+
+        <div class="container">
+            <hr>
+            <h2>Produtos</h2>
+            <a href="/produto/novo" class="btn btn-success">
+                Criar novo produto</a>
+            <hr>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>Título</td>
+                        <td>Descrição</td>
+                    </tr>
+                </thead>
+
+                <body>
+                    <% usuario.forEach(usuario=> { %>
+                        <tr>
+                            <td>
+                                <%= usuario.matricula %>
+                            </td>
+                            <td>
+                                <%= usuario.senha %>
+                            </td>
+                            <td>
+                                <form action="/produto/delete" method="post">
+                                    <input type="hidden" name="id" value="<%= usuario.id %>">
+                                    <button class="btn btn-danger">Deletar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </body>
+            </table>
+        </div>
+
+        <%- include('../partials/footer') %>

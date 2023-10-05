@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seu Site</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+       
+        .navbar {
+            background-color: rgba(0, 105, 81, 0.7);
+            height: 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: white;
+            margin-left: 20px;
+        }
+
+        .navbar .logo-img {
+            max-height: 40px;
+        }
+
+        #nav-right {
+            margin-right: 20px;
+        }
+
+        #nav-right a {
+            margin-left: 20px;
+        }
+
+    
+        
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <a href="./login" class="brand-logo">
+                <img src="/images/logoPequena.png" class="logo-img">
+            </a>
+            
+        </div>
+        <div id="nav-right">
+            <a href="home_Funcionario">Home</a>
+            <a href="../views/denuncias/denuncias">Denúncias</a>
+            <a href="../views/monitoramento/monitoramento">Monitoramento</a>
+            <a href="../views/usuario/novo">Cadastrar Funcionário</a>
+        </div>
+    </div>
+
+</body>
+</html>
