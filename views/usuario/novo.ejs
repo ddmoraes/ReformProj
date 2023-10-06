@@ -1,27 +1,64 @@
-<%- include('../partials/header') %> 
-<%- include('../partials/navbar') %> 
+<link rel="stylesheet" href="/css/novo.css">
+<div class="content3"></div><%- include('../partials/header') %>
+    <%- include('../partials/navbar2') %>
 
-<div class="container">
-    <div class="card">
-        <div class="card-header">
-            Cadastro de Produto
+
+
+        <body>
+
+            <img class="imagem-fora-container" src="/images/logo.png">
+
+            <div class="login-container">
+
+                <div class="login-form">
+                    <h2 id="textu">Cadastrar Novo Funcionário</h2>
+                    <form action="/salvarUsuario" method="post">
+                        <div class="form-group">
+                            
+                            <div class="form-group">
+                                <label for="nome">Nome</label>
+                                <input type="text" name="nivel" id="nome" class="form-control" placeholder="Escreva admin, ou usuario" required>
+                            </div>
+                            <div class="form-group">
+                            <label for="matricula">Matrícula</label>
+                            <input type="number" name="matricula" id="matricula" class="form-control" >
+                        </div>
+                        <div class="form-group">
+                            <label for="nome">Nome</label>
+                            <input type="text" name="nome" id="nome" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="senha">Senha</label>
+                            <input type="password" name="senha" id="senha" class="form-control" required>
+                        </div>
+                        <label for="nivel">Browser Select</label>
+                      
+                        
+                        
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                </div>
+            </div>
+            </div>
+
+
+            <%- include('../partials/footer') %>
+        </body>
+        <div id="fundo">
+            <a href="./login" style="color: #006951;">Funcionários Cadastrados</a>
         </div>
-        <div class="card-body">
-            <form action="/salvarUsuario" method="post">
-                <label>Matricula</label>
-                <input type="string" name="matricula" id="tituloProd"
-                class="form-control">
-                <input type="string" name="nome" id="tituloProd"
-                class="form-control">
-                <input type="string" name="email" id="tituloProd"
-                class="form-control">
-                <label>Senha</label>
-                <input type="string" name="senha">
-                <button class="btn btn-primary">Salvar</button>
-            </form>
-        </div>
+        <% if (locals.success) { %>
+            <script>
+                M.toast({ html: '<%= success %>' })
+            </script>
+            <% } %>
 
-    </div>
-</div>
-
-<%- include('../partials/footer') %> 
+                <% if (locals.error) { %>
+                    <script>
+                        M.toast({ html: '<%= error %>' })
+                    </script>
+                    <% } %>

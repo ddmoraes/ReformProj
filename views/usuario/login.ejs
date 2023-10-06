@@ -25,9 +25,15 @@
         
         
         <div id = "fundo">
-            <a href="outra_pagina.html" style="color: #006951;">Funcionário</a> |
-            <a href="outra_pagina.html" style="color: #006951;">Empresa</a>
+            <a href="./login" style="color: #006951;">Funcionário</a> |
+            <a href="./login" style="color: #006951;">Empresa</a>
             </div>
-            
+           
             <%- include('../partials/footer') %> 
+
+            <% if (locals.error) { %>
+                <script>
+                M.toast({html: '<%= error %>'})
+                    </script>
+              <% } %>
         </body>

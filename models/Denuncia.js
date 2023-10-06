@@ -3,6 +3,7 @@ const connection = require("../database/database");
 
 const Denuncia = connection
     .define('denuncia', {
+      
         texto: {
             type: Sequelize.STRING,
             allowNull: false
