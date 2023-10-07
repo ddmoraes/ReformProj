@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt')
 const bodyParser = require("body-parser");
 const connection = require("./database/database");
 
+
+
 const Usuario= require("./models/Usuario");
 const UsuarioController = require("./routes/Usuariocontroller");
 
@@ -13,6 +15,8 @@ const DenunciaController = require("./routes/DenunciaController");
 
 const HomeController = require("./routes/homeController")
 const MonitoramentoController = require("./routes/MonitoramentoController")
+
+
 
 app.use(session({
     secret: 'sua-chave-secreta-aqui',
@@ -49,22 +53,6 @@ app.listen(3000, ()=>{
     console.log("app rodando");
 });
 
-app.get("/", (req, res)=>{
-    res.render('index');
-});
-
-app.get("/produtos", (req, res)=>{
-    Usuario.findAll({ raw : true}).then(usuario=> {
-        res.render("produtoslist", {
-            usuario : usuario
-        });
-    });
-    
-});
-
-app.get("/produto/novo", (req, res)=>{
-    res.render("produto");
-});
 
 
 

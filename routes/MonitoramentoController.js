@@ -24,7 +24,12 @@ router.use(session({
 }));
 
 router.get('/monitoramento', autenticacaoMiddleware, (req, res) => {
-    res.render('../views/monitoramento/monitoramento');
+    if (req.session.usuario.nivel === 'admin') {
+        res.render("../views/monitoramento/monitoramentoAdm");
+    } else {
+        res.redirect("usuario/login");
+    }
+
 });
 
 router.get('/monitoramentoFuncionario', autenticacaoMiddleware, (req, res) => {

@@ -1,0 +1,12 @@
+<!-- resultado_pesquisa_denuncia.ejs -->
+<h1>Denúncias Encontradas</h1>
+<ul>
+  <% denuncias.forEach(function(denuncia) { %>
+    <li>
+      <strong>Empresa:</strong> <%= denuncia.Empresa.nome %><br>
+      <strong>Título:</strong> <%= denuncia.titulo %><br>
+      <strong>Descrição:</strong> <%= denuncia.descricao %><br>
+      <!-- Adicione outras informações da denúncia aqui -->
+    </li>
+  <% }); %>
+</ul>

@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="/css/home.css">
+<div class="content3"></div>
+<%- include('../partials/header') %>
+<%- include('../partials/navbar3') %>
+<body>
+    <h1>Lista de Usuários</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Matrícula</th>
+                <th>Nome</th>
+                <th>Email</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <% usuarios.forEach(function(usuario) { %>
+                <tr>
+                    <td><%= usuario.matricula %></td>
+                    <td><%= usuario.nome %></td>
+                    <td><%= usuario.email %></td>
+                   
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <%- include('../partials/footer') %>
+</body>
+</div>

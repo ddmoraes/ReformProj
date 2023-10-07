@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/css/novo.css">
-<div class="content3"></div><%- include('../partials/header') %>
-    <%- include('../partials/navbar2') %>
+<div class="content3"><%- include('../partials/header') %>
+    <%- include('../partials/navbar3') %>
 
 
 
@@ -15,14 +15,16 @@
                     <form action="/salvarUsuario" method="post">
                         <div class="form-group">
                             
+                            
                             <div class="form-group">
-                                <label for="nome">Nome</label>
+                                <label for="nome">Nivel</label>
                                 <input type="text" name="nivel" id="nome" class="form-control" placeholder="Escreva admin, ou usuario" required>
                             </div>
                             <div class="form-group">
-                            <label for="matricula">Matrícula</label>
-                            <input type="number" name="matricula" id="matricula" class="form-control" >
-                        </div>
+                                <label for="nome">Nivel</label>
+                                <input type="text" name="empresa" id="nome" class="form-control" placeholder="Escreva admin, ou usuario" required>
+                            </div>
+                           
                         <div class="form-group">
                             <label for="nome">Nome</label>
                             <input type="text" name="nome" id="nome" class="form-control" required>
@@ -35,7 +37,7 @@
                             <label for="senha">Senha</label>
                             <input type="password" name="senha" id="senha" class="form-control" required>
                         </div>
-                        <label for="nivel">Browser Select</label>
+                        
                       
                         
                         
@@ -44,13 +46,14 @@
                 </div>
             </div>
             </div>
-
+            <div id="fundo">
+                <a href="./login" style="color: #006951;">Funcionários Cadastrados</a>
+            </div>
 
             <%- include('../partials/footer') %>
         </body>
-        <div id="fundo">
-            <a href="./login" style="color: #006951;">Funcionários Cadastrados</a>
-        </div>
+    </div>
+       
         <% if (locals.success) { %>
             <script>
                 M.toast({ html: '<%= success %>' })

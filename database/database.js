@@ -6,4 +6,6 @@ const connection = new Sequelize('turma_tarde',
     dialect: 'mysql'
 });
 
+
+
 module.exports = connection;

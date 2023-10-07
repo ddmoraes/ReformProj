@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const Denuncia = require("../models/Denuncia");
 const bodyParser = require("body-parser");
 const session = require('express-session');
+const Denuncia = require("../models/Denuncia");
+
 
 function autenticacaoMiddleware(req, res, next) {
     if (req.session && req.session.usuario) {
@@ -33,6 +34,16 @@ router.get('/denuncias', autenticacaoMiddleware, (req, res) => {
 });
 
 
+
+router.get('/buscarDenunciaPorEmpresa', autenticacaoMiddleware, (req, res) => {
+    if (req.session.usuario.nivel === 'admin') {
+        res.render("denuncia/buscar_denuncia_por_empresa");
+    } else {
+        res.redirect("usuario/login");
+    }
+  
+});
+
 router.post("/denuncias", autenticacaoMiddleware, (req, res) => {
     var texto = req.body.texto;
     var imagem = req.body.imagem;
@@ -47,4 +58,36 @@ router.post("/denuncias", autenticacaoMiddleware, (req, res) => {
         });
 });
 });
+    
+router.post('/buscarDenunciaPorEmpresa', autenticacaoMiddleware, async (req, res) => {
+    const empresaUsuarioLogado = req.session.usuario.empresa; 
+  
+    try {
+      const denuncias = await Denuncia.findAll({
+        include: [
+          {
+            model: Usuario, 
+            where: {
+              empresa: empresaUsuarioLogado,
+            },
+            required: true, 
+          },
+        ],
+      });
+  
+      if (denuncias.length === 0) {
+        res.render('buscar_denuncia_por_empresa', {
+          error: 'Nenhuma denúncia encontrada para a sua empresa.',
+        });
+      } else {
+        res.render('resultado_pesquisa_denuncia', {
+          denuncias: denuncias,
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao buscar denúncias pela empresa do usuário:', error);
+      res.status(500).json({ error: 'Erro ao buscar denúncias pela empresa do usuário' });
+    }
+});
+
 module.exports = router;

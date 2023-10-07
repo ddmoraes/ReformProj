@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="/css/home.css">
+<div class="content3"></div>
+<%- include('../partials/header') %>
+<%- include('../partials/navbar3') %>
+
+
+<h1>Pesquisar Usuários por Nome de Empresa</h1>
+<form action="/pesquisarUsuarios" method="POST">
+    <label for="nomeEmpresa">Nome da Empresa:</label>
+    <input type="text" name="nomeEmpresa" id="nomeEmpresa" required>
+    <button type="submit">Pesquisar</button>
+</form>
+
+<%- include('../partials/footer') %>
+<% if (locals.error) { %>
+    <script>
+        M.toast({ html: '<%= error %>' })
+    </script>
+    <% } %>

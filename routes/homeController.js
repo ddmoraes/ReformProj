@@ -26,12 +26,12 @@ router.use(session({
 
 
 router.get("/home2", autenticacaoMiddleware, (req, res) => {
-    res.render("../views/usuario/home_Funcionario");
+    res.render("../views/home/home_Funcionario");
 });
 
 router.get("/home1", autenticacaoMiddleware, (req, res) => {
     if (req.session.usuario.nivel === 'admin') {
-        res.render("../views/usuario/home_adm");
+        res.render("../views/home/home_adm");
     } else {
         res.redirect("usuario/login");
     }

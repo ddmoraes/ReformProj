@@ -5,9 +5,9 @@ const Usuario = connection.define('usuario', {
     matricula: {
         primaryKey: true,
         type: Sequelize.INTEGER,
-        allowNull: false, 
+        allowNull: false,
         unique: true,
-        autoIncroment: true
+        autoIncrement: true
     },
     nome: {
         type: Sequelize.STRING,
@@ -21,10 +21,28 @@ const Usuario = connection.define('usuario', {
         type: Sequelize.TEXT,
         allowNull: false
     },
-    nivel: { 
-        type: Sequelize.STRING, 
+    nivel: {
+        type: Sequelize.STRING,
         allowNull: false
+    },
+    empresa: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        index: true
     }
+});
+
+
+function generateRandomMatricula() {
+    const min = 1000; 
+    const max = 9999; 
+    const random = Math.floor(Math.random() * (max - min + 1)) + min;
+    return String(random);
+}
+
+Usuario.beforeCreate(async (usuario, options) => {
+ 
+    usuario.matricula = generateRandomMatricula();
 });
 
 Usuario.sync({ force: false });
