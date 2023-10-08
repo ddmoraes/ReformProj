@@ -1,6 +1,18 @@
-<h1>Buscar Denúncias por Nome da Empresa</h1>
-<form action="/buscarDenunciaPorEmpresa" method="POST">
-  <label for="nomeEmpresa">Nome da Empresa:</label>
-  <input type="text" name="nomeEmpresa" id="nomeEmpresa" required>
-  <button type="submit">Buscar Denúncias</button>
+<h1>Buscar Denúncias por Empresa</h1>
+<h1>Pesquisar Denúncias por Empresa</h1>
+<form action="/buscarDenunciaPorEmpresa" method="post">
+    <label for="empresaId">Selecione a Empresa:</label>
+    <select name="empresaId" id="empresaId">
+        <% empresas.forEach(function(empresa) { %>
+            <option value="<%= empresa.id %>"><%= empresa.nome %></option>
+        <% }); %>
+    </select>
+    <button type="submit">Pesquisar</button>
 </form>
+<%- include('../partials/footer') %> 
+
+<% if (locals.error) { %>
+    <script>
+    M.toast({html: '<%= error %>'})
+        </script>
+  <% } %>

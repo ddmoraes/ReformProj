@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pesquisar Denúncias</title>
+</head>
+<body>
+    <h1>Pesquisar Denúncias por Empresa</h1>
+    <form action="/empresa/pesquisarDenuncias" method="post">
+        <label for="empresaId">Selecione a Empresa:</label>
+        <select name="empresaId" id="empresaId">
+            <% empresas.forEach(function(empresa) { %>
+                <option value="<%= empresa.id %>"><%= empresa.nome %></option>
+            <% }); %>
+        </select>
+        <button type="submit">Pesquisar</button>
+    </form>
+</body>
+</html>

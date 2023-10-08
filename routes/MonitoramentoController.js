@@ -23,7 +23,7 @@ router.use(session({
     saveUninitialized: true
 }));
 
-router.get('/monitoramento', autenticacaoMiddleware, (req, res) => {
+router.get('/buscarDenunciaPorEmpresa', autenticacaoMiddleware, (req, res) => {
     if (req.session.usuario.nivel === 'admin') {
         res.render("../views/monitoramento/monitoramentoAdm");
     } else {

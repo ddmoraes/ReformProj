@@ -1,5 +1,8 @@
+
 const Sequelize = require("sequelize");
 const connection = require("../database/database");
+const Empresa = require("./empresa"); 
+
 
 const Denuncia = connection.define('denuncia', {
     texto: {
@@ -14,9 +17,20 @@ const Denuncia = connection.define('denuncia', {
         type: Sequelize.STRING,
         allowNull: false
     },
-   
+    empresaId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: Empresa, 
+            key: 'id', 
+        },
+    },
 });
+const Usuario = require("./Usuario"); 
 
+Denuncia.belongsTo(Usuario, {
+    foreignKey: 'matriculaUsuario',
+    as: 'usuario', 
+});
 Denuncia.sync({ force: false });
-
 module.exports = Denuncia;

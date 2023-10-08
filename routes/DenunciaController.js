@@ -3,6 +3,7 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 const session = require('express-session');
 const Denuncia = require("../models/Denuncia");
+const Empresa = require("../models/empresa");
 
 
 function autenticacaoMiddleware(req, res, next) {
@@ -44,50 +45,71 @@ router.get('/buscarDenunciaPorEmpresa', autenticacaoMiddleware, (req, res) => {
   
 });
 
-router.post("/denuncias", autenticacaoMiddleware, (req, res) => {
-    var texto = req.body.texto;
-    var imagem = req.body.imagem;
-    var video = req.body.video;
-    Denuncia.create({
-        texto: texto,
-        imagem: imagem,
-        video: video,
-    }).then(() => {
-        res.render("denuncia/denuncias", {
-            success: 'Denuncia Enviada com sucesso'
+router.post("/denuncias", autenticacaoMiddleware, async (req, res) => {
+    try {
+        const { texto, imagem, video } = req.body;
+        const empresaId = req.session.usuario.empresa; 
+
+       
+        await Denuncia.create({
+            texto: texto,
+            imagem: imagem,
+            video: video,
+            empresaId: empresaId
         });
-});
+
+        res.render("denuncia/denuncias", {
+            success: 'Denúncia enviada com sucesso'
+        });
+    } catch (error) {
+        console.error("Erro ao criar denúncia:", error);
+        res.render("denuncia/denuncias", {
+            error: 'Erro ao criar denúncia, verifique os dados e tente novamente'
+        });
+    }
 });
     
 router.post('/buscarDenunciaPorEmpresa', autenticacaoMiddleware, async (req, res) => {
-    const empresaUsuarioLogado = req.session.usuario.empresa; 
-  
+    const empresaUsuarioLogado = req.session.usuario.empresa;
+    console.log('Empresa na sessão:', empresaUsuarioLogado);
+
     try {
-      const denuncias = await Denuncia.findAll({
-        include: [
-          {
-            model: Usuario, 
-            where: {
-              empresa: empresaUsuarioLogado,
-            },
-            required: true, 
-          },
-        ],
-      });
-  
-      if (denuncias.length === 0) {
-        res.render('buscar_denuncia_por_empresa', {
-          error: 'Nenhuma denúncia encontrada para a sua empresa.',
+        const denuncias = await Denuncia.findAll({
+            include: [
+                {
+                    model: Usuario,
+                    where: {
+                        empresa: empresaUsuarioLogado,
+                    },
+                    required: true,
+                },
+            ],
         });
-      } else {
-        res.render('resultado_pesquisa_denuncia', {
-          denuncias: denuncias,
-        });
-      }
+
+       
+        const empresas = await Empresa.findAll();
+
+        if (denuncias.length === 0) {
+            res.render("denuncia/buscar_denuncia_por_empresa", {
+                error: "Nenhuma denúncia encontrada para a sua empresa",
+                empresas: empresas, 
+            });
+        } else {
+            res.render("denuncia/resultado_pesquisa_denuncia", {
+                denuncias,
+                empresas: empresas, 
+            });
+        }
     } catch (error) {
-      console.error('Erro ao buscar denúncias pela empresa do usuário:', error);
-      res.status(500).json({ error: 'Erro ao buscar denúncias pela empresa do usuário' });
+        console.error("Erro ao buscar denúncias pela empresa do usuário:", error);
+        res.status(500).json({
+            error: "Erro ao buscar denúncias pela empresa do usuário",
+        });
     }
 });
 
+/*SELECT u.*, e.nome AS nome_empresa
+FROM usuarios u
+LEFT JOIN empresas e ON u.empresaId = e.id
+WHERE u.matricula = '4803';*/
 module.exports = router;

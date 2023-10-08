@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require('bcrypt');
 const router = express.Router();
 const Usuario = require("../models/Usuario");
+const Empresa = require("../models/empresa"); // Importe o modelo de empresa
 const bodyParser = require("body-parser");
 const session = require('express-session');
 
@@ -24,7 +25,7 @@ router.use(session({
 }));
 
 router.get('/login', (req, res) => {
-    res.render('../views/usuario/login');
+    res.render('usuario/login');
 });
 
 router.post('/login', async (req, res) => {
@@ -41,27 +42,28 @@ router.post('/login', async (req, res) => {
                     matricula: usuario.matricula,
                     nome: usuario.nome,
                     nivel: usuario.nivel,
-                    empresa: usuario.empresa // Adicione a empresa à sessão
+                    
+                    empresaId: usuario.empresaId, // Corrigido para empresaId
                 };
 
                 if (usuario.nivel === 'admin') {
-                    res.render('../views/home/home_adm');
+                    res.render('home/home_adm');
                 } else {
-                    res.render('../views/home/home_Funcionario');
+                    res.render('home/home_Funcionario');
                 }
             } else {
-                res.render('../views/usuario/login', {
+                res.render('usuario/login', {
                     error: 'Login ou senha incorretos'
                 });
             }
         } else {
-            res.render('../views/usuario/login', {
+            res.render('usuario/login', {
                 error: 'Login ou senha incorretos'
             });
         }
     } catch (error) {
         console.error("Erro ao fazer login:", error);
-        res.render('../views/usuario/login', {
+        res.render('usuario/login', {
             error: 'Erro ao fazer login, tente novamente mais tarde'
         });
     }
@@ -72,23 +74,18 @@ router.get("/novo", (req, res) => {
 });
 
 router.post("/salvarUsuario", async (req, res) => {
-    var matricula = req.body.matricula;
-    var senha = req.body.senha;
-    var nome = req.body.nome;
-    var email = req.body.email;
-    var nivel = req.body.nivel;
-    var empresa = req.body.empresa;
+    const { matricula, senha, nome, email, nivel, empresaId } = req.body;
 
     try {
         const hashedPassword = await bcrypt.hash(senha, 10);
 
         await Usuario.create({
-            matricula: matricula,
+            matricula,
             senha: hashedPassword,
-            email: email,
-            nome: nome,
-            nivel: nivel,
-            empresa: empresa
+            email,
+            nome,
+            nivel,
+            empresaId // Corrigido para empresaId
         });
 
         res.render("usuario/novo", {
@@ -103,56 +100,74 @@ router.post("/salvarUsuario", async (req, res) => {
     }
 });
 
-router.get("/FuncionariosCadastrados", (req, res) => {
+router.get("/FuncionariosCadastrados", autenticacaoMiddleware, (req, res) => {
     Usuario.findAll({ raw: true }).then(usuarios => {
         res.render("usuario/FuncionariosCadastrados", {
-            usuarios: usuarios // Corrija o nome da variável para 'usuarios'
+            usuarios
         });
     });
 });
 
-router.get("/pesquisarUsuarios", (req, res) => {
-    if (req.session.usuario.nivel === 'admin') {
-        res.render("usuario/FuncionariosCadastrados");
-    } else {
-        res.redirect("usuario/login");
+router.get("/buscarFuncionariosPorEmpresa", autenticacaoMiddleware, async (req, res) => {
+    try {
+        const empresas = await Empresa.findAll(); 
+        res.render("usuario/buscar_funcionarios_por_empresa", { empresas });
+    } catch (error) {
+        console.error("Erro ao carregar empresas:", error);
+        res.status(500).send("Erro ao carregar empresas");
     }
 });
 
-router.post("/pesquisarUsuarios", autenticacaoMiddleware, async (req, res) => {
-    const nomeEmpresaLogada = req.session.usuario.empresa; // Obtém a empresa do usuário logado na sessão
-    const nomeEmpresaPesquisa = req.body.nomeEmpresa;
-
-    // Verifica se a empresa da pesquisa é a mesma da empresa logada
-    if (nomeEmpresaLogada !== nomeEmpresaPesquisa) {
-        return res.render("usuario/FuncionariosCadastrados", {
-            error: 'Você não tem permissão para pesquisar usuários de outra empresa'
-        });
-    }
+router.post("/buscarFuncionariosPorEmpresa", autenticacaoMiddleware, async (req, res) => {
+    const usuarioLogado = req.session.usuario;
+    const empresaIdPesquisa = req.body.empresaId;
 
     try {
-        const usuarios = await Usuario.findAll({
-            where: {
-                empresa: nomeEmpresaPesquisa
-            },
-            raw: true
-        });
+        if (usuarioLogado.nivel === "admin") {
+            const empresaUsuarioLogado = await Empresa.findByPk(usuarioLogado.empresaId); 
 
-        if (usuarios.length === 0) {
-            res.render("usuario/FuncionariosCadastrados", {
-                error: 'Nenhum usuário encontrado para a empresa especificada'
+            if (!empresaUsuarioLogado) {
+                res.status(404).json({
+                    error: "Empresa não encontrada para o usuário logado",
+                });
+                return;
+            }
+
+            if (empresaIdPesquisa !== empresaUsuarioLogado.id.toString()) {
+                return res.render("usuario/FuncionariosCadastrados", {
+                    error: "Você não tem permissão para pesquisar usuários de outra empresa",
+                });
+            }
+
+            const funcionarios = await Usuario.findAll({
+                where: {
+                    empresaId: empresaIdPesquisa,
+                },
+                raw: true,
             });
+
+            if (funcionarios.length === 0) {
+                res.render("usuario/FuncionariosCadastrados", {
+                    error: "Nenhum usuário encontrado para a empresa especificada",
+                });
+            } else {
+                res.render("usuario/resultado_pesquisa_funcionarios", {
+                    funcionarios,
+                });
+            }
         } else {
-            res.render("usuario/ListaFuncionarios", {
-                usuarios: usuarios
+            res.status(403).json({
+                error: "Acesso negado. Você não tem permissão de administrador.",
             });
         }
     } catch (error) {
         console.error("Erro ao pesquisar usuários:", error);
         res.render("usuario/FuncionariosCadastrados", {
-            error: 'Erro ao pesquisar usuários, verifique os dados e tente novamente'
+            error: "Erro ao pesquisar usuários, verifique os dados e tente novamente",
         });
     }
 });
+
+
 
 module.exports = router;

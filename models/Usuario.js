@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const connection = require("../database/database");
+const Empresa = require("./empresa"); 
 
 const Usuario = connection.define('usuario', {
     matricula: {
@@ -25,11 +26,14 @@ const Usuario = connection.define('usuario', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    empresa: {
-        type: Sequelize.STRING,
+    empresaId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        index: true
-    }
+        references: {
+            model: Empresa, 
+            key: 'id', 
+        },
+    },
 });
 
 
@@ -40,11 +44,10 @@ function generateRandomMatricula() {
     return String(random);
 }
 
+
 Usuario.beforeCreate(async (usuario, options) => {
- 
     usuario.matricula = generateRandomMatricula();
 });
 
 Usuario.sync({ force: false });
-
 module.exports = Usuario;

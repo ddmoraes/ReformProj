@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="/css/home.css">
+<div class="content3"></div>
+<%- include('../partials/header') %>
+<%- include('../partials/navbar3') %>
+<body>
+    <h1>Funcionários da Empresa</h1>
+    <ul>
+        <% funcionarios.forEach(function(funcionario) { %>
+            <li><%= funcionario.nome %></li>
+        <% }); %>
+    </ul>
+    <%- include('../partials/footer') %>
+</body>
+</div>

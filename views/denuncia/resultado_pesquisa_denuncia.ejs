@@ -1,0 +1,17 @@
+<h1>Resultado da Pesquisa de Denúncias</h1>
+
+<% if (denuncias.length === 0) { %>
+    <p>Nenhuma denúncia encontrada para a empresa especificada.</p>
+<% } else { %>
+    <ul>
+        <% denuncias.forEach(function(denuncia) { %>
+            <li><%= denuncia.titulo %> - <%= denuncia.descricao %></li>
+        <% }); %>
+    </ul>
+<% } %>
+
+<% if (locals.error) { %>
+    <script>
+    M.toast({html: '<%= error %>'})
+        </script>
+  <% } %>

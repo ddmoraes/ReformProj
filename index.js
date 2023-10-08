@@ -7,6 +7,11 @@ const connection = require("./database/database");
 
 
 
+
+
+const empresaa = require("./models/empresa")
+const empresa = require("./routes/empresa");
+app.use("/", empresa);
 const Usuario= require("./models/Usuario");
 const UsuarioController = require("./routes/Usuariocontroller");
 
