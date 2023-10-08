@@ -2,11 +2,11 @@ const express = require("express");
 const bcrypt = require('bcrypt');
 const router = express.Router();
 const Usuario = require("../models/Usuario");
-const Empresa = require("../models/empresa"); // Importe o modelo de empresa
+const Empresa = require("../models/empresa"); 
 const bodyParser = require("body-parser");
 const session = require('express-session');
 
-// Middleware de Autenticação
+
 function autenticacaoMiddleware(req, res, next) {
     if (req.session && req.session.usuario) {
         next();
@@ -19,7 +19,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
 router.use(session({
-    secret: 'sua_chave_secreta', // Substitua pela sua chave secreta segura
+    secret: 'sua_chave_secreta', 
     resave: false,
     saveUninitialized: true
 }));
@@ -43,7 +43,7 @@ router.post('/login', async (req, res) => {
                     nome: usuario.nome,
                     nivel: usuario.nivel,
                     
-                    empresaId: usuario.empresaId, // Corrigido para empresaId
+                    empresaId: usuario.empresaId, 
                 };
 
                 if (usuario.nivel === 'admin') {
@@ -85,7 +85,7 @@ router.post("/salvarUsuario", async (req, res) => {
             email,
             nome,
             nivel,
-            empresaId // Corrigido para empresaId
+            empresaId 
         });
 
         res.render("usuario/novo", {
@@ -134,7 +134,7 @@ router.post("/buscarFuncionariosPorEmpresa", autenticacaoMiddleware, async (req,
             }
 
             if (empresaIdPesquisa !== empresaUsuarioLogado.id.toString()) {
-                return res.render("usuario/FuncionariosCadastrados", {
+                return res.render("usuario/buscar_funcionarios_por_empresa", {
                     error: "Você não tem permissão para pesquisar usuários de outra empresa",
                 });
             }
@@ -147,7 +147,7 @@ router.post("/buscarFuncionariosPorEmpresa", autenticacaoMiddleware, async (req,
             });
 
             if (funcionarios.length === 0) {
-                res.render("usuario/FuncionariosCadastrados", {
+                res.render("usuario/buscar_funcionarios_por_empresa", {
                     error: "Nenhum usuário encontrado para a empresa especificada",
                 });
             } else {

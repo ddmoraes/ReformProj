@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const Denuncia = require("../models/Denuncia");
 const Empresa = require("../models/empresa");
+const Usuario = require("../models/Usuario");
 
 
 function autenticacaoMiddleware(req, res, next) {
@@ -36,26 +37,39 @@ router.get('/denuncias', autenticacaoMiddleware, (req, res) => {
 
 
 
-router.get('/buscarDenunciaPorEmpresa', autenticacaoMiddleware, (req, res) => {
-    if (req.session.usuario.nivel === 'admin') {
-        res.render("denuncia/buscar_denuncia_por_empresa");
-    } else {
-        res.redirect("usuario/login");
+router.get("/buscarDenunciaPorEmpresa", autenticacaoMiddleware, async (req, res) => {
+    try {
+        const empresas = await Empresa.findAll(); 
+        res.render("denuncia/buscar_denuncia_por_empresa", { empresas });
+    } catch (error) {
+        console.error("Erro ao carregar empresas:", error);
+        res.status(500).send("Erro ao carregar empresas");
     }
-  
 });
 
 router.post("/denuncias", autenticacaoMiddleware, async (req, res) => {
     try {
         const { texto, imagem, video } = req.body;
-        const empresaId = req.session.usuario.empresa; 
+        const empresaId = req.session.usuario.empresaId; 
+        const matriculaUsuario = req.session.usuario.matricula;
+        
+        
+        
+        const empresa = await Empresa.findOne({ where: { id: empresaId } });
 
-       
+        if (!empresa) {
+            return res.render("denuncia/denuncias", {
+                error: 'Empresa não encontrada. Verifique o ID da empresa na sessão e tente novamente.'
+            });
+        }
+ 
+        
         await Denuncia.create({
             texto: texto,
             imagem: imagem,
             video: video,
-            empresaId: empresaId
+            empresaId: empresaId,
+            matriculaUsuario: matriculaUsuario
         });
 
         res.render("denuncia/denuncias", {
@@ -68,9 +82,9 @@ router.post("/denuncias", autenticacaoMiddleware, async (req, res) => {
         });
     }
 });
-    
+
 router.post('/buscarDenunciaPorEmpresa', autenticacaoMiddleware, async (req, res) => {
-    const empresaUsuarioLogado = req.session.usuario.empresa;
+    const empresaUsuarioLogado = req.session.usuario.empresaId;
     console.log('Empresa na sessão:', empresaUsuarioLogado);
 
     try {
@@ -78,8 +92,9 @@ router.post('/buscarDenunciaPorEmpresa', autenticacaoMiddleware, async (req, res
             include: [
                 {
                     model: Usuario,
+                    as: 'usuario',
                     where: {
-                        empresa: empresaUsuarioLogado,
+                        empresaId: empresaUsuarioLogado,
                     },
                     required: true,
                 },
@@ -107,7 +122,6 @@ router.post('/buscarDenunciaPorEmpresa', autenticacaoMiddleware, async (req, res
         });
     }
 });
-
 /*SELECT u.*, e.nome AS nome_empresa
 FROM usuarios u
 LEFT JOIN empresas e ON u.empresaId = e.id

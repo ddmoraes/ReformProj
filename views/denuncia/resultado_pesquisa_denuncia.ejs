@@ -1,12 +1,16 @@
 <h1>Resultado da Pesquisa de Denúncias</h1>
 
 <% if (denuncias.length === 0) { %>
-    <p>Nenhuma denúncia encontrada para a empresa especificada.</p>
+    <p>Nenhuma denúncia encontrada.</p>
 <% } else { %>
     <ul>
-        <% denuncias.forEach(function(denuncia) { %>
-            <li><%= denuncia.titulo %> - <%= denuncia.descricao %></li>
-        <% }); %>
+        <% for (let i = 0; i < denuncias.length; i++) { %>
+            <li>
+                Texto: <%= denuncias[i].texto %><br>
+                Imagem: <%= denuncias[i].imagem %><br>
+                Vídeo: <%= denuncias[i].video %><br>
+            </li>
+        <% } %>
     </ul>
 <% } %>
 

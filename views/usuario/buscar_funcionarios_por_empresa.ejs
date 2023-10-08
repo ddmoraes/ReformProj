@@ -13,3 +13,18 @@
     </select>
     <button type="submit">Buscar Funcionários</button>
 </form>
+<%- include('../partials/footer') %>
+</body>
+</div>
+
+<% if (locals.success) { %>
+    <script>
+        M.toast({ html: '<%= success %>' })
+    </script>
+    <% } %>
+
+        <% if (locals.error) { %>
+            <script>
+                M.toast({ html: '<%= error %>' })
+            </script>
+            <% } %>

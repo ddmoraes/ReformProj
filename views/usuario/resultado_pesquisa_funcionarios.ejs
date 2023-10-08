@@ -7,6 +7,7 @@
     <ul>
         <% funcionarios.forEach(function(funcionario) { %>
             <li><%= funcionario.nome %></li>
+            <li><%= funcionario.matricula %></li>
         <% }); %>
     </ul>
     <%- include('../partials/footer') %>

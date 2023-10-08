@@ -1,18 +1,15 @@
-<h1>Buscar Denúncias por Empresa</h1>
-<h1>Pesquisar Denúncias por Empresa</h1>
-<form action="/buscarDenunciaPorEmpresa" method="post">
+
+<div class="content3"></div>
+
+
+
+<h1>Buscar Funcionários por Empresa</h1>
+<form action="/buscarDenunciaPorEmpresa" method="POST">
     <label for="empresaId">Selecione a Empresa:</label>
     <select name="empresaId" id="empresaId">
         <% empresas.forEach(function(empresa) { %>
             <option value="<%= empresa.id %>"><%= empresa.nome %></option>
         <% }); %>
     </select>
-    <button type="submit">Pesquisar</button>
+    <button type="submit">Buscar Funcionários</button>
 </form>
-<%- include('../partials/footer') %> 
-
-<% if (locals.error) { %>
-    <script>
-    M.toast({html: '<%= error %>'})
-        </script>
-  <% } %>

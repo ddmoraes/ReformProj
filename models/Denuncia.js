@@ -10,11 +10,11 @@ const Denuncia = connection.define('denuncia', {
         allowNull: false
     },
     imagem: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
     },
     video: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
     },
     empresaId: {
