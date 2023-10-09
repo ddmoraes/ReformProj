@@ -1,3 +1,5 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar3') %>
 <h1>Resultado da Pesquisa de Denúncias</h1>
 
 <% if (denuncias.length === 0) { %>
@@ -14,6 +16,7 @@
     </ul>
 <% } %>
 
+<%- include('../partials/footer') %>
 <% if (locals.error) { %>
     <script>
     M.toast({html: '<%= error %>'})

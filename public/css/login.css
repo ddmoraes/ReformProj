@@ -1,25 +1,26 @@
-.imagem-fora-container {
-    position: absolute;
-    top: 50%;
-    left: 11%;
-    transform: translate(0, -50%);
-}
+
 
 .login-container {
-    position: absolute;
-    top: 50%;
-    right: 10%;
-    transform: translate(0, -50%);
-    max-width: 95%;
+
+    
+    
     padding: 2%;
     background: linear-gradient(to right, #ffffff, #dae0e0);
     border: 1px solid #ccc;
     border-radius: 0.8vw;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: auto 1fr auto;
+    grid-gap: 50px; 
 }
 
 .icons {
-    position: absolute;
+   
     top: 1%;
     right: 1%;
     color: #006951;
@@ -45,28 +46,3 @@
     font-size: 18px;
 }
 
-@media (max-width: 768px) {
-    .login-container {
-        max-width: 95%;
-        padding: 5%;
-        border-radius: 5px;
-        right: 5%;
-    }
-
-    .icons {
-        top: 5%;
-        right: 5%;
-    }
-    
-    #textu {
-        font-size: 20px; 
-    }
-    .imagem-fora-container {
-        left: 5%;
-    }
-
-    .imagem-fora-container img {
-        max-width: 100%; 
-        height: auto;
-    }
-}

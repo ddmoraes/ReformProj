@@ -1,9 +1,10 @@
 
 <div class="content3"></div>
+<%- include('../partials/header') %>
+<%- include('../partials/navbar3') %>
 
 
-
-<h1>Buscar Funcionários por Empresa</h1>
+<h1>Buscar Denuncias</h1>
 <form action="/buscarDenunciaPorEmpresa" method="POST">
     <label for="empresaId">Selecione a Empresa:</label>
     <select name="empresaId" id="empresaId">
@@ -11,5 +12,5 @@
             <option value="<%= empresa.id %>"><%= empresa.nome %></option>
         <% }); %>
     </select>
-    <button type="submit">Buscar Funcionários</button>
+    <button type="submit">Buscar Denuncias</button>
 </form>

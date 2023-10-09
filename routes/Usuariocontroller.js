@@ -70,6 +70,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.get("/novo", (req, res) => {
+    
     res.render("usuario/novo");
 });
 
@@ -100,15 +101,16 @@ router.post("/salvarUsuario", async (req, res) => {
     }
 });
 
-router.get("/FuncionariosCadastrados", autenticacaoMiddleware, (req, res) => {
-    Usuario.findAll({ raw: true }).then(usuarios => {
-        res.render("usuario/FuncionariosCadastrados", {
-            usuarios
-        });
-    });
-});
+
 
 router.get("/buscarFuncionariosPorEmpresa", autenticacaoMiddleware, async (req, res) => {
+   
+    if (req.session.usuario.nivel !== 'admin') {
+      
+        res.status(403).send("Acesso negado. Você não tem permissão para acessar esta página.");
+        return;
+    }
+
     try {
         const empresas = await Empresa.findAll(); 
         res.render("usuario/buscar_funcionarios_por_empresa", { empresas });

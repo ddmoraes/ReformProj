@@ -1,68 +1,70 @@
 <link rel="stylesheet" href="/css/novo.css">
 <div class="content3"><%- include('../partials/header') %>
-    <%- include('../partials/navbar3') %>
+        <%- include('../partials/navbar3') %>
 
 
 
-        <body>
+            <body>
+                <div class="container">
+                <img class="imagem-fora-container" src="/images/logo.png">
 
-            <img class="imagem-fora-container" src="/images/logo.png">
+                <div class="login-container">
+                   
+                        <div class="login-form">
+                            <h2 id="textu">Cadastrar Novo Funcionário</h2>
+                            <form action="/salvarUsuario" method="post">
+                                <div class="form-group">
 
-            <div class="login-container">
 
-                <div class="login-form">
-                    <h2 id="textu">Cadastrar Novo Funcionário</h2>
-                    <form action="/salvarUsuario" method="post">
-                        <div class="form-group">
-                            
-                            
-                            <div class="form-group">
-                                <label for="nome">Nivel</label>
-                                <input type="text" name="nivel" id="nome" class="form-control" placeholder="Escreva admin, ou usuario" required>
-                            </div>
-    
-                           
-                        <div class="form-group">
-                            <label for="nome">Nome</label>
-                            <input type="text" name="nome" id="nome" class="form-control" required>
+                                    <div class="form-group">
+                                        <label for="nome">Nivel</label>
+                                        <input type="text" name="nivel" id="nome" class="form-control"
+                                            placeholder="Escreva admin, ou usuario" required>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="nome">Nome</label>
+                                        <input type="text" name="nome" id="nome" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nome">EMpresaID</label>
+                                        <input type="number" name="empresaId" id="nome" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" name="email" id="email" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="senha">Senha</label>
+                                        <input type="password" name="senha" id="senha" class="form-control" required>
+                                    </div>
+
+
+
+
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <label for="nome">EMpresaID</label>
-                            <input type="number" name="empresaId" id="nome" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="senha">Senha</label>
-                            <input type="password" name="senha" id="senha" class="form-control" required>
-                        </div>
-                        
-                      
-                        
-                        
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
-            </div>
-            <div id="fundo">
-                <a href="./login" style="color: #006951;">Funcionários Cadastrados</a>
-            </div>
+</div>
+<div id="fundo">
+    <a href="./login" style="color: #006951;">Funcionários Cadastrados</a>
+</div>
 
-            <%- include('../partials/footer') %>
-        </body>
+<%- include('../partials/footer') %>
+    </body>
     </div>
-       
-        <% if (locals.success) { %>
-            <script>
-                M.toast({ html: '<%= success %>' })
-            </script>
-            <% } %>
 
-                <% if (locals.error) { %>
-                    <script>
-                        M.toast({ html: '<%= error %>' })
-                    </script>
-                    <% } %>
+    <% if (locals.success) { %>
+        <script>
+            M.toast({ html: '<%= success %>' })
+        </script>
+        <% } %>
+
+            <% if (locals.error) { %>
+                <script>
+                    M.toast({ html: '<%= error %>' })
+                </script>
+                <% } %>

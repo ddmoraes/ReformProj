@@ -38,6 +38,13 @@ router.get('/denuncias', autenticacaoMiddleware, (req, res) => {
 
 
 router.get("/buscarDenunciaPorEmpresa", autenticacaoMiddleware, async (req, res) => {
+    
+    if (req.session.usuario.nivel !== 'admin') {
+        
+        res.status(403).send("Acesso negado. Você não tem permissão para acessar esta página.");
+        return;
+    }
+
     try {
         const empresas = await Empresa.findAll(); 
         res.render("denuncia/buscar_denuncia_por_empresa", { empresas });
@@ -89,19 +96,17 @@ router.post('/buscarDenunciaPorEmpresa', autenticacaoMiddleware, async (req, res
 
     try {
         const denuncias = await Denuncia.findAll({
+            where: {
+                empresaId: empresaUsuarioLogado,
+            },
             include: [
                 {
                     model: Usuario,
                     as: 'usuario',
-                    where: {
-                        empresaId: empresaUsuarioLogado,
-                    },
-                    required: true,
                 },
             ],
         });
 
-       
         const empresas = await Empresa.findAll();
 
         if (denuncias.length === 0) {
