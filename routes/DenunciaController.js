@@ -36,24 +36,6 @@ router.get('/denuncias', autenticacaoMiddleware, (req, res) => {
 });
 
 
-
-router.get("/buscarDenunciaPorEmpresa", autenticacaoMiddleware, async (req, res) => {
-    
-    if (req.session.usuario.nivel !== 'admin') {
-        
-        res.status(403).send("Acesso negado. Você não tem permissão para acessar esta página.");
-        return;
-    }
-
-    try {
-        const empresas = await Empresa.findAll(); 
-        res.render("denuncia/buscar_denuncia_por_empresa", { empresas });
-    } catch (error) {
-        console.error("Erro ao carregar empresas:", error);
-        res.status(500).send("Erro ao carregar empresas");
-    }
-});
-
 router.post("/denuncias", autenticacaoMiddleware, async (req, res) => {
     try {
         const { texto, imagem, video } = req.body;
@@ -87,6 +69,23 @@ router.post("/denuncias", autenticacaoMiddleware, async (req, res) => {
         res.render("denuncia/denuncias", {
             error: 'Erro ao criar denúncia, verifique os dados e tente novamente'
         });
+    }
+});
+
+router.get("/buscarDenunciaPorEmpresa", autenticacaoMiddleware, async (req, res) => {
+    
+    if (req.session.usuario.nivel !== 'admin') {
+        
+        res.status(403).send("Acesso negado. Você não tem permissão para acessar esta página.");
+        return;
+    }
+
+    try {
+        const empresas = await Empresa.findAll(); 
+        res.render("denuncia/buscar_denuncia_por_empresa", { empresas });
+    } catch (error) {
+        console.error("Erro ao carregar empresas:", error);
+        res.status(500).send("Erro ao carregar empresas");
     }
 });
 
