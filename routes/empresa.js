@@ -12,7 +12,9 @@ router.use(bodyParser.json());
 
 
 
-
+router.get('/teste', (req, res) => {
+    res.render('usuario/teste');
+});
 
 
 module.exports = router;

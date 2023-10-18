@@ -9,14 +9,17 @@
     border: 1px solid #ccc;
     border-radius: 0.8vw;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    
+    width: 400px; /* Defina a largura desejada */
+    height: 500px;
 }
 
 .container {
     display: grid;
     grid-template-columns: 1fr 1fr; 
     grid-template-rows: auto 1fr auto;
-    grid-gap: 50px; 
+    grid-gap: 50px; /* Ajusta o espaçamento entre as linhas */
+    grid-column-gap: 120px; /* Ajusta o espaçamento entre as colunas */
+    margin-top: 20px; /* Margem superior opcional */
 }
 
 .icons {
@@ -45,4 +48,5 @@
     color: #dae0e0;
     font-size: 18px;
 }
+
 

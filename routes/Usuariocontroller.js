@@ -8,7 +8,7 @@ const session = require('express-session');
 
 
 function autenticacaoMiddleware(req, res, next) {
-    if (req.session && req.session.usuario) {
+    if (req.session.usuario) {
         next();
     } else {
         res.redirect("/login");
@@ -69,6 +69,11 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.get("/logout", (req, res) => {
+    req.session.usuario = undefined;
+    res.redirect("/login")
+})
+
 router.get("/novo", (req, res) => {
     
     res.render("usuario/novo");
@@ -121,12 +126,13 @@ router.get("/buscarFuncionariosPorEmpresa", autenticacaoMiddleware, async (req, 
 });
 
 router.post("/buscarFuncionariosPorEmpresa", autenticacaoMiddleware, async (req, res) => {
+  console.log("teste pra ver post")
     const usuarioLogado = req.session.usuario;
     const empresaIdPesquisa = req.body.empresaId;
-
+console.log(usuarioLogado +" id: "+ empresaIdPesquisa)
     try {
         if (usuarioLogado.nivel === "admin") {
-            const empresaUsuarioLogado = await Empresa.findByPk(usuarioLogado.empresaId); 
+            const empresaUsuarioLogado = await Empresa.findByPk(empresaIdPesquisa); 
 
             if (!empresaUsuarioLogado) {
                 res.status(404).json({

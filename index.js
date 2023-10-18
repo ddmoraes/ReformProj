@@ -24,9 +24,13 @@ const MonitoramentoController = require("./routes/MonitoramentoController")
 
 
 app.use(session({
-    secret: 'sua-chave-secreta-aqui',
+    secret: 'b15dbe4792f5ef037e385bfce7f91e4e9b57a6397c8ad837dcfa9a787aaece498255187c69276304f214ef024f809084203abf4a7487a022e29e007633f7fe7esua-chave-secreta-aqui',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookies:{
+        maxAge: 180000
+
+    }
 }));
 
 app.use("/", UsuarioController);
